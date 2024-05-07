@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.3.2.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'com.tw.bootcamp'
@@ -16,6 +17,10 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+jacoco {
+	toolVersion = "0.8.7"
 }
 
 dependencies {
@@ -43,4 +48,43 @@ test {
 	reports {
 		junitXml.enabled = true
 	}
+	jacoco {
+		enabled = true
+	}
 }
+
+apply plugin: 'jacoco'
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.10
+			}
+		}
+	}
+
+	afterEvaluate {
+		getClassDirectories().setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it,
+					exclude: ['com.tw.bootcamp.bookshop.BookshopApplication.class'])
+		}))
+	}
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = false
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
+
+	afterEvaluate {
+		getClassDirectories().setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it,
+					exclude: ['com.tw.bootcamp.bookshop.BookshopApplication.class'])
+		}))
+	}
+}
+
+check.dependsOn jacocoTestCoverageVerification
