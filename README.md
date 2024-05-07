@@ -52,7 +52,7 @@ docker pull postgres
 
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=bookshop-db -p5432:5432 postgres
 
-# Connect to postgress
+# Connect to postgres
 
 ```bash
         docker container ls
