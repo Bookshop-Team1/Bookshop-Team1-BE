@@ -26,7 +26,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/openjdk:11-jdk
-      - image: cimg/postgres:latest
+      - image: cimg/postgres:16.2.0
         environment:
           POSTGRES_USER: "postgres"
           POSTGRES_PASSWORD: "postgres"
