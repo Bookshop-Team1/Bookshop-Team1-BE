@@ -7,4 +7,6 @@ WORKDIR /home/springuser
 ARG JAR_FILE=build/libs/bookshop-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
 
+EXPOSE 8080
+
 ENTRYPOINT ["java", "-Xmx512m", "-Xms256m", "-jar", "app.jar"]
