@@ -40,11 +40,7 @@ jobs:
 
       - run:
           name: Wait for PostgreSQL to be ready
-          command: |
-              while ! pg_isready -h localhost -p 5432 -q -U postgres; do
-                echo "Waiting for PostgreSQL to start..."
-                sleep 2
-              done
+          command: sleep 30s
 
       - run:
           name: build app and docker image
