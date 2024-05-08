@@ -13,6 +13,7 @@ jobs:
           POSTGRES_DB: "bookshop-db"
     steps:
       - checkout
+      - run: echo "TESTING POSTGRES SETUP"
 
 
   build:
@@ -71,6 +72,7 @@ jobs:
 workflows:
   build-test-deploy:
     jobs:
+      - setup_postgres
       - build
       - test:
           requires:
