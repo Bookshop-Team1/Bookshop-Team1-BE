@@ -4,6 +4,17 @@ orbs:
   cloudrun: circleci/gcp-cloud-run@1.0.0
 
 jobs:
+  setup_postgres:
+    docker:
+      - image: cimg/postgres:14.0
+        environment:
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres"
+          POSTGRES_DB: "bookshop-db"
+    steps:
+      - checkout
+
+
   build:
     docker:
       - image: circleci/openjdk:11-jdk
@@ -26,16 +37,6 @@ jobs:
   deploy:
     docker:
       - image: circleci/openjdk:11-jdk
-
-    services:
-      postgres:
-        image: postgres:latest
-        environment:
-          POSTGRES_DB: "bookshop-db"
-          POSTGRES_USER: "postgres"
-          POSTGRES_PASSWORD: "postgres"
-        ports:
-          - "5432:5432"
 
     steps:
       - checkout
@@ -78,6 +79,7 @@ workflows:
           requires:
             - build
             - test
+            - setup_postgres
           filters:
             branches:
               only: main
