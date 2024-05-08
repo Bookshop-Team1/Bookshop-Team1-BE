@@ -26,6 +26,17 @@ jobs:
   deploy:
     docker:
       - image: circleci/openjdk:11-jdk
+
+    services:
+      postgres:
+        image: postgres:latest
+        environment:
+          POSTGRES_DB: "bookshop-db"
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres"
+        ports:
+          - "5432:5432"
+
     steps:
       - checkout
       - setup_remote_docker:
@@ -71,12 +82,3 @@ workflows:
             branches:
               only: main
 
-services:
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: "bookshop-db"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-    ports:
-      - "5432:5432"
