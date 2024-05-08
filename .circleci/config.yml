@@ -3,11 +3,15 @@ orbs:
   gcp-gcr: circleci/gcp-gcr@0.6.1
   cloudrun: circleci/gcp-cloud-run@1.0.0
 
-
 executors:
   openjdk11:
     docker:
       - image: circleci/openjdk:11-jdk
+      - image: cimg/postgres:14.0
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: bookshop-db
 
 jobs:
   build:
@@ -29,17 +33,25 @@ jobs:
 
   deploy:
     executor: openjdk11
+    pre-steps:
+      - run:
+          name: Install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 3m
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+#      - run:
+#          name: Expose PostgreSQL port
+#          command: docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=bookshop-db -p 5432:5432 cimg/postgres:14.0
       - run:
-          name: Expose PostgreSQL port
-          command: docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=bookshop-db -p 5432:5432 cimg/postgres:14.0
-      - run:
-          name: Waiting for Postgres to be ready
+          name: Checking all containers
           command: |
-            dockerize -wait tcp://localhost:5432 -timeout 3m
             echo "Listing docker containers"
             docker ps
       - run:
@@ -51,7 +63,6 @@ jobs:
             echo 'export TAG=${CIRCLE_SHA1}' >> $BASH_ENV
             echo 'export IMAGE_NAME=demo' >> $BASH_ENV && source $BASH_ENV
             docker build -t us.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME -t us.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME:$TAG .
-
       - gcp-gcr/gcr-auth:
           gcloud-service-key: GOOGLE_CLOUD_KEYS
           google-project-id: GOOGLE_PROJECT_ID
