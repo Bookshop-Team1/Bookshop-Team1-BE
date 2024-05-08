@@ -39,8 +39,18 @@ jobs:
           docker_layer_caching: true
 
       - run:
-          name: Wait for PostgreSQL to be ready
-          command: sleep 30s
+          name: Waiting for Postgres to be ready - 1
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Waiting for Postgres to be ready - 2
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 5432 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Postgres && exit 1
 
       - run:
           name: build app and docker image
