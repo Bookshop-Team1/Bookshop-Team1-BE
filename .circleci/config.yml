@@ -35,7 +35,7 @@ jobs:
           command: |
             ./gradlew bootJar
             echo ${GCP_PROJECT_KEY} | base64 -d > $HOME/gcloud-service-key.json 
-            echo (cat $HOME/gcloud-service-key.json)
+            echo "$(cat $HOME/gcloud-service-key.json)"
             echo 'export GOOGLE_CLOUD_KEYS=$(cat $HOME/gcloud-service-key.json)' >> $BASH_ENV
             echo 'export TAG=${CIRCLE_SHA1}' >> $BASH_ENV
             echo 'export IMAGE_NAME=demo' >> $BASH_ENV && source $BASH_ENV
