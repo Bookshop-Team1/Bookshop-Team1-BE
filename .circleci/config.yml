@@ -32,26 +32,22 @@ jobs:
           POSTGRES_USER: "postgres"
           POSTGRES_PASSWORD: "postgres"
           POSTGRES_DB: "bookshop-db"
+        ports:
+          "5432:5432"
+
 
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
 
-      - run:
-          name: Waiting for Postgres to be ready - 2
-          command: |
-            for i in `seq 1 10`;
-            do
-              nc -z 127.0.0.1 5432 && echo Success && exit 0
-              echo -n .
-              sleep 1
-            done
-            echo Failed waiting for Postgres && exit 1
 
       - run:
-          name: Waiting for Postgres to be ready - 1
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          name: Waiting for Postgres to be ready
+          command: |
+            dockerize -wait tcp://localhost:5432 -timeout 3m
+            echo "Listing docker containers"
+            docker ps
 
       - run:
           name: build app and docker image
