@@ -26,6 +26,7 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/users").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/health").permitAll() // Allow "/health" endpoint without authentication
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
