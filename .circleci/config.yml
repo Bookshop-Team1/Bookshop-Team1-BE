@@ -33,7 +33,10 @@ jobs:
 
   deploy:
     executor: openjdk11
-    pre-steps:
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
@@ -42,10 +45,6 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 3m
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
 #      - run:
 #          name: Expose PostgreSQL port
 #          command: docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=bookshop-db -p 5432:5432 cimg/postgres:14.0
