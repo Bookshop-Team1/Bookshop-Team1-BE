@@ -8,11 +8,6 @@ executors:
   openjdk11:
     docker:
       - image: circleci/openjdk:11-jdk
-      - image: cimg/postgres:14.1
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: bookshop-db
 
 jobs:
   build:
@@ -40,7 +35,7 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Expose PostgreSQL port
-          command: docker run -d -p 5432:5432 cimg/postgres:14.0
+          command: docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=bookshop-db -p 5432:5432 cimg/postgres:14.0
       - run:
           name: Waiting for Postgres to be ready
           command: |
