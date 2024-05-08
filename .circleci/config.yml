@@ -39,6 +39,9 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
+          name: Expose PostgreSQL port
+          command: docker run -d -p 5432:5432 cimg/postgres:14.0
+      - run:
           name: Waiting for Postgres to be ready
           command: |
             dockerize -wait tcp://localhost:5432 -timeout 3m
