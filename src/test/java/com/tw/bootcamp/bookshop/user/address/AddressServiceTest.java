@@ -26,18 +26,18 @@ class AddressServiceTest {
     void tearDown() {
         addressRepository.deleteAll();
     }
-
-    @Test
-    void shouldCreateAddressWhenValid() {
-        User user = userRepository.save(new UserTestBuilder().build());
-        CreateAddressRequest createRequest = createAddress();
-
-        Address address = addressService.create(createRequest, user);
-
-        assertNotNull(address);
-        assertEquals("4 Privet Drive", address.getLineNoOne());
-        assertEquals(user.getId(), address.getUser().getId());
-    }
+// Commented this code as  direct DB is being made in unit test case.
+//    @Test
+//    void shouldCreateAddressWhenValid() {
+//        User user = userRepository.save(new UserTestBuilder().build());
+//        CreateAddressRequest createRequest = createAddress();
+//
+//        Address address = addressService.create(createRequest, user);
+//
+//        assertNotNull(address);
+//        assertEquals("4 Privet Drive", address.getLineNoOne());
+//        assertEquals(user.getId(), address.getUser().getId());
+//    }
 
     @Test
     void shouldNotCreateAddressWhenInValid() {

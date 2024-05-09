@@ -12,7 +12,7 @@ public class OrderTestBuilder {
                 .itemCount(1)
                 .shippingCost(50.00)
                 .currency("INR")
-                .paymentMethod(PaymentMethod.CASH_ON_DELIVERY);
+                .paymentMethod(PaymentMethod.CASH_ON_DELIVERY.toString());
     }
 
     public Order build() {
