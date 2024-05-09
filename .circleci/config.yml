@@ -73,7 +73,7 @@ jobs:
       - cloudrun/deploy:
           platform: "managed"
           image: "us.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME"
-          service-name: "bookshop_be"
+          service-name: "team1-bookshop-be"
           region: $GOOGLE_COMPUTE_ZONE
           unauthenticated: true
 
