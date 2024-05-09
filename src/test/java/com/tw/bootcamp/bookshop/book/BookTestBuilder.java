@@ -8,7 +8,9 @@ public class BookTestBuilder {
     public BookTestBuilder() {
         bookBuilder = Book.builder().name("Harry Potter")
                 .authorName("J K Rowling")
-                .price(Money.rupees(300));
+                .price(Money.rupees(300))
+                .bookCount(10L);
+
     }
 
     public Book build() {
@@ -22,6 +24,11 @@ public class BookTestBuilder {
 
     public BookTestBuilder withName(String name) {
         bookBuilder.name(name);
+        return this;
+    }
+
+    public BookTestBuilder withBookCount(Long bookCount) {
+        bookBuilder.bookCount(bookCount);
         return this;
     }
 }
