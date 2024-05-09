@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class OrderServiceTest {
@@ -30,7 +30,7 @@ class OrderServiceTest {
 
     @BeforeEach
     public void setUp() {
-        orderService = new OrderService(orderRepository, userRepository, addressRepository);
+        orderService = new OrderService(orderRepository, addressRepository);
     }
 
     @AfterEach
@@ -41,7 +41,7 @@ class OrderServiceTest {
     }
 
     @Test
-    void shouldCreateOrder() throws BookNotFoundException {
+    void shouldCreateOrder() {
         Book book = new BookTestBuilder().build();
         User user = new UserTestBuilder().build();
         Address address = new AddressTestBuilder().buildWith(user);
@@ -59,6 +59,8 @@ class OrderServiceTest {
         Order actualOrder = orderService.createOrder(book, user, addressRequest);
 
         Assertions.assertThat(actualOrder).isEqualTo(order);
+        verify(orderRepository, times(1)).save(any());
+        verify(addressRepository, times(1)).save(any());
     }
 
 }
