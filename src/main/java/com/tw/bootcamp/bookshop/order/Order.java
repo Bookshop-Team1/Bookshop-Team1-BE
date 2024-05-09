@@ -26,6 +26,7 @@ public class Order {
     private User user;
     @OneToOne
     private Address shippingAddress;
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
     private Double shippingCost;
     private Double totalCost;
