@@ -1,6 +1,7 @@
 package com.tw.bootcamp.bookshop.book;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,5 +45,24 @@ class BookServiceTest {
 
         assertEquals(2, books.size());
         assertEquals("Animal Farm", books.get(0).getName());
+    }
+
+    @Test
+    void shouldReturnBookGivenCorrectId() throws BookNotFoundException {
+        Book wingsOfFire = new BookTestBuilder().withName("Wings of Fire").build();
+        Book savedWindsOfFire = bookRepository.save(wingsOfFire);
+
+        Book expectedBook = bookService.getById(savedWindsOfFire.getId());
+
+        assertEquals(expectedBook.getId(), wingsOfFire.getId());
+        assertEquals(expectedBook.getName(), wingsOfFire.getName());
+    }
+
+    @Test
+    void shouldThrowExceptionGivenInCorrectId() {
+        Book wingsOfFire = new BookTestBuilder().withName("Wings of Fire").build();
+        bookRepository.save(wingsOfFire);
+
+        Assertions.assertThrows(BookNotFoundException.class, () -> bookService.getById(1001001001L));
     }
 }

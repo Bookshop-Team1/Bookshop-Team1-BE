@@ -1,5 +1,7 @@
 package com.tw.bootcamp.bookshop.user.address;
 
+import com.tw.bootcamp.bookshop.user.User;
+
 public class AddressTestBuilder {
     private final Address.AddressBuilder addressBuilder;
 
@@ -14,5 +16,9 @@ public class AddressTestBuilder {
 
     public Address build() {
         return addressBuilder.build();
+    }
+
+    public Address buildWith(User user) {
+        return addressBuilder.user(user).build();
     }
 }
