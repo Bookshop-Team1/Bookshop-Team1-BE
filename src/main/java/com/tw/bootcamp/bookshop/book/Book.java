@@ -22,6 +22,14 @@ public class Book {
     private String authorName;
     @Embedded
     private Money price;
+    private String imageUrl;
+    private String thumbnailUrl;
+    private Long bookCount;
+    private String isbn;
+    private String isbn13;
+    private Integer originalPublicationYear;
+    private String languageCode;
+    private Double averageRating;
 
     public BookResponse toResponse() {
         return BookResponse.builder()
