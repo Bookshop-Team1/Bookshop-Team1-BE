@@ -39,7 +39,7 @@ class BookControllerTest {
         mockMvc.perform(get("/books")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.data.length()").value(1));
         verify(bookService, times(1)).fetchAll();
     }
 
@@ -50,7 +50,26 @@ class BookControllerTest {
         mockMvc.perform(get("/books")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(0));
+                .andExpect(jsonPath("$.data.length()").value(0));
         verify(bookService, times(1)).fetchAll();
     }
+
+    @Test
+    void shouldListAllBooksWhenPresentEvenWithZeroQuantity() throws Exception {
+        List<Book> books = new ArrayList<>();
+        Book book = new BookTestBuilder().build();
+        books.add(book);
+        Book book1 = new BookTestBuilder().withBookCount(0L).build();
+        books.add(book1);
+        when(bookService.fetchAll()).thenReturn(books);
+
+
+        mockMvc.perform(get("/books")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()").value(2))
+                .andExpect(jsonPath("$.data[1].bookCount").value(0));
+        verify(bookService, times(1)).fetchAll();
+    }
+
 }
