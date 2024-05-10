@@ -12,14 +12,22 @@ import java.util.List;
 import static java.util.List.of;
 
 @Service
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class BookService {
-  @Autowired private BookRepository bookRepository;
+    @Autowired private BookRepository bookRepository;
+
 
   public List<Book> fetchAll() {
     return bookRepository.findAllByOrderByNameAsc();
   }
+    public Book getById(long bookId) throws BookNotFoundException {
+        return findById(bookId);
+    }
+
+    private Book findById(long bookId) throws BookNotFoundException {
+        return bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book not found"));
+    }
 
   public BookDetailsResponse fetchBookDetails(String id) {
     Book book =

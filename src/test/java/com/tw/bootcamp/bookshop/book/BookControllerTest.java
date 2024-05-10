@@ -35,48 +35,65 @@ public class BookControllerTest {
     books.add(book);
     when(bookService.fetchAll()).thenReturn(books);
 
-    mockMvc
-        .perform(get("/books").contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()").value(1));
-    verify(bookService, times(1)).fetchAll();
-  }
+        mockMvc.perform(get("/books")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()").value(1));
+        verify(bookService, times(1)).fetchAll();
+    }
 
-  @Test
-  void shouldBeEmptyListWhenNoBooksPresent() throws Exception {
-    when(bookService.fetchAll()).thenReturn(new ArrayList<>());
+    @Test
+    void shouldBeEmptyListWhenNoBooksPresent() throws Exception {
+        when(bookService.fetchAll()).thenReturn(new ArrayList<>());
 
-    mockMvc
-        .perform(get("/books").contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()").value(0));
-    verify(bookService, times(1)).fetchAll();
-  }
+        mockMvc.perform(get("/books")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()").value(0));
+        verify(bookService, times(1)).fetchAll();
+    }
 
-  @Test
-  void shouldReturnBookDetailsWithBookId() throws Exception {
-    BookDetailsResponse bookDetailsResponse = BookTestBuilder.buildBookDetailsResponseTestBuilder();
+    @Test
+    void shouldListAllBooksWhenPresentEvenWithZeroQuantity() throws Exception {
+        List<Book> books = new ArrayList<>();
+        Book book = new BookTestBuilder().build();
+        books.add(book);
+        Book book1 = new BookTestBuilder().withBookCount(0L).build();
+        books.add(book1);
+        when(bookService.fetchAll()).thenReturn(books);
 
-    when(bookService.fetchBookDetails("123")).thenReturn(bookDetailsResponse);
 
-    mockMvc
-        .perform(get("/books/123").contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(content().string(objectMapper.writeValueAsString(bookDetailsResponse)));
+        mockMvc.perform(get("/books")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()").value(2))
+                .andExpect(jsonPath("$.data[1].bookCount").value(0));
+        verify(bookService, times(1)).fetchAll();
+    }
+    @Test
+    void shouldReturnBookDetailsWithBookId() throws Exception {
+        BookDetailsResponse bookDetailsResponse = BookTestBuilder.buildBookDetailsResponseTestBuilder();
 
-    verify(bookService, times(1)).fetchBookDetails("123");
-  }
+        when(bookService.fetchBookDetails("123")).thenReturn(bookDetailsResponse);
 
-  @Test
-  void shouldThrowExceptionWhileFetchingBookWithInvalidId() throws Exception {
-    BookDetailsResponse bookDetailsResponse = BookTestBuilder.buildBookDetailsResponseTestBuilder();
+        mockMvc
+                .perform(get("/books/123").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(bookDetailsResponse)));
 
-    when(bookService.fetchBookDetails("12345")).thenThrow(ResourceNotFoundException.class);
+        verify(bookService, times(1)).fetchBookDetails("123");
+    }
 
-    mockMvc
-        .perform(get("/books/12345").contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNotFound());
+    @Test
+    void shouldThrowExceptionWhileFetchingBookWithInvalidId() throws Exception {
+        BookDetailsResponse bookDetailsResponse = BookTestBuilder.buildBookDetailsResponseTestBuilder();
 
-    verify(bookService, times(1)).fetchBookDetails("12345");
-  }
+        when(bookService.fetchBookDetails("12345")).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc
+                .perform(get("/books/12345").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(bookService, times(1)).fetchBookDetails("12345");
+    }
 }

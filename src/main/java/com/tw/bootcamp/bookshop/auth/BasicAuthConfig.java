@@ -34,6 +34,7 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users/authenticate").permitAll().
                 antMatchers(HttpMethod.POST, "/users/create").permitAll()
+                .antMatchers("/health").permitAll()
                 .anyRequest().authenticated().and().httpBasic().and().cors().and().csrf().disable();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

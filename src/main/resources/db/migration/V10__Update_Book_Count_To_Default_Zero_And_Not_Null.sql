@@ -1,0 +1,4 @@
+ALTER TABLE books
+    ALTER COLUMN book_count SET DEFAULT 0;
+ALTER TABLE books
+    ALTER COLUMN book_count SET NOT NULL;

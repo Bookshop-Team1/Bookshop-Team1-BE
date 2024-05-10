@@ -43,8 +43,13 @@ public class BookTestBuilder {
     return this;
   }
 
-  public BookTestBuilder withName(String name) {
-    bookBuilder.name(name);
-    return this;
-  }
+    public BookTestBuilder withName(String name) {
+        bookBuilder.name(name);
+        return this;
+    }
+
+    public BookTestBuilder withBookCount(Long bookCount) {
+        bookBuilder.bookCount(bookCount);
+        return this;
+    }
 }

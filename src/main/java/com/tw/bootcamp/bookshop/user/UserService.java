@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = getUserIfExist(email);
 
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
@@ -49,10 +49,18 @@ public class UserService implements UserDetailsService {
         );
     }
 
+    private User getUserIfExist(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
     public void update(Long id, UpdateUserRequest updateUserRequest) throws UserNotFoundException {
         User user = findById(id);
         user.update(updateUserRequest);
         userRepository.save(user);
+    }
+
+    public User getByEmail(String email) {
+        return getUserIfExist(email);
     }
 
     private User findById(Long id) throws UserNotFoundException {

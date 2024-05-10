@@ -2,6 +2,7 @@ package com.tw.bootcamp.bookshop.book;
 
 import com.tw.bootcamp.bookshop.user.User;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -74,10 +75,29 @@ class BookServiceTest {
     assertEquals(bookDetailsResponse.getId(), result.getId());
   }
 
-  @Test
-  void shouldThrowExceptionForInvalidBookId() {
+    @Test
+    void shouldThrowExceptionForInvalidBookId() {
 
-    when(bookRepository.findById(123L)).thenThrow(ResourceNotFoundException.class);
-    assertThrows(ResourceNotFoundException.class, () -> bookService.fetchBookDetails("123"));
-  }
+        when(bookRepository.findById(123L)).thenThrow(ResourceNotFoundException.class);
+        assertThrows(ResourceNotFoundException.class, () -> bookService.fetchBookDetails("123"));
+    }
+
+    @Test
+    void shouldReturnBookGivenCorrectId() throws BookNotFoundException {
+        Book wingsOfFire = new BookTestBuilder().withName("Wings of Fire").build();
+        Book savedWindsOfFire = bookRepository.save(wingsOfFire);
+
+        Book expectedBook = bookService.getById(savedWindsOfFire.getId());
+
+        assertEquals(expectedBook.getId(), wingsOfFire.getId());
+        assertEquals(expectedBook.getName(), wingsOfFire.getName());
+    }
+
+    @Test
+    void shouldThrowExceptionGivenInCorrectId() {
+        Book wingsOfFire = new BookTestBuilder().withName("Wings of Fire").build();
+        bookRepository.save(wingsOfFire);
+
+        Assertions.assertThrows(BookNotFoundException.class, () -> bookService.getById(1001001001L));
+    }
 }

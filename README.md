@@ -48,8 +48,33 @@ brew install docker colima
 docker pull postgres
 ```
 
-# Start postgress
+# Start SQL Server
+Make sure colima is already running. 
+#### Step 1: Then run the below command to start sql server locally:
+```bash
+docker run --cap-add SYS_PTRACE -e 'ACCEPT_EULA=1' -e 'MSSQL_USER=sa' \
+-e 'MSSQL_PID=Developer'  -e 'MSSQL_SA_PASSWORD=123456789Ab' -p 1433:1433 \
+--name azuresqledge -d mcr.microsoft.com/azure-sql-edge
+```
+#### Step 2: Download azure studio as DB client
+https://go.microsoft.com/fwlink/?linkid=2261572
 
+#### Step 3: Connect to the DB client with the following params
+``` bash 
+  Connection type: Microsoft SQL Server
+  Input type: Parameters
+  Server: 127.0.0.1
+  Authentication Type: SQL Login
+  User name: sa
+  Password: 123456789Ab
+  Trust Server certificate: True
+```
+#### Step 4: execute below cmd to create new database
+``` bash
+   create DATABASE bookshop;
+```
+
+# Start postgress
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=bookshop-db -p5432:5432 postgres
 
 # Connect to postgres

@@ -1,1 +1,4 @@
-ALTER TABLE users ADD COLUMN role varchar NOT NULL;
+--ALTER TABLE users ADD COLUMN role varchar NOT NULL;
+
+ALTER TABLE users
+ADD role VARCHAR(255) NOT NULL;
