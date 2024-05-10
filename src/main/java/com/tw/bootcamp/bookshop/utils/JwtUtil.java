@@ -25,7 +25,7 @@ public class JwtUtil {
 
   // Create token
   private String createToken(Map<String, Object> claims, String subject) {
-    long expirationMs = 250000;
+    long expirationMs = 70000000;
     return Jwts.builder()
         .setClaims(claims)
         .setSubject(subject)

@@ -20,30 +20,40 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    private final JwtRequestFilter jwtRequestFilter;
+  private final JwtRequestFilter jwtRequestFilter;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(User.PASSWORD_ENCODER);
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userService).passwordEncoder(User.PASSWORD_ENCODER);
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users/authenticate").permitAll().
-                antMatchers(HttpMethod.POST, "/users/create").permitAll()
-                .antMatchers("/health").permitAll()
-                .anyRequest().authenticated().and().httpBasic().and().cors().and().csrf().disable();
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .antMatchers(HttpMethod.POST, "/users/authenticate")
+        .permitAll()
+        .antMatchers(HttpMethod.POST, "/users/create")
+        .permitAll()
+        .antMatchers("/health")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .httpBasic()
+        .and()
+        .cors()
+        .and()
+        .csrf()
+        .disable();
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
+  @Override
+  @Bean
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 }
