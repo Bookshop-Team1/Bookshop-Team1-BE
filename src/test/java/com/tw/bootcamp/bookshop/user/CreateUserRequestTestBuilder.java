@@ -1,7 +1,9 @@
 package com.tw.bootcamp.bookshop.user;
 
 import com.tw.bootcamp.bookshop.user.dto.CreateUserRequest;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("dev")
 public class CreateUserRequestTestBuilder {
   private CreateUserRequest.CreateUserRequestBuilder requestBuilder;
 

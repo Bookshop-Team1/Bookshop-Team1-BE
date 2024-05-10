@@ -1,7 +1,9 @@
 package com.tw.bootcamp.bookshop.user.address;
 
 import com.tw.bootcamp.bookshop.user.User;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("dev")
 public class AddressTestBuilder {
     private final Address.AddressBuilder addressBuilder;
 

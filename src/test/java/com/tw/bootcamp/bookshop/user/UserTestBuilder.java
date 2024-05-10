@@ -5,11 +5,13 @@ import com.tw.bootcamp.bookshop.user.address.Address;
 import com.tw.bootcamp.bookshop.user.address.CreateAddressRequest;
 import com.tw.bootcamp.bookshop.user.dto.CreateUserRequest;
 import com.tw.bootcamp.bookshop.user.dto.JwtRequest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@ActiveProfiles("dev")
 public class UserTestBuilder {
   private final UserBuilder userBuilder;
 

@@ -1,5 +1,8 @@
 package com.tw.bootcamp.bookshop.user.address;
 
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("dev")
 public class CreateAddressRequestTestBuilder {
     private final CreateAddressRequest.CreateAddressRequestBuilder addressRequestBuilder;
 
