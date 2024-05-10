@@ -29,8 +29,10 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-security"
 //	implementation 'org.flywaydb:flyway-core'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+//	compileOnly 'org.projectlombok:lombok'
+//	annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.3.3.RELEASE'
 
 	runtimeOnly 'com.h2database:h2'

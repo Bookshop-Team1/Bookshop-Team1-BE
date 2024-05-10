@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import static com.tw.bootcamp.bookshop.user.User.PASSWORD_ENCODER;
+
 @Component
 public class DataInitializationComponent implements CommandLineRunner {
     private final UserRepository userRepository;
@@ -24,9 +26,11 @@ public class DataInitializationComponent implements CommandLineRunner {
 
         if(!userRepository.findByEmail(adminUserName).isPresent()){
 
+            String  password = PASSWORD_ENCODER.encode("Admin@12345");
+
             User adminUser = User.builder()
                     .email(adminUserName)
-                    .password("admin_user")
+                    .password(password)
                     .role(Role.ADMIN)
                     .mobileNumber("1234567890")
                     .firstName("admin")

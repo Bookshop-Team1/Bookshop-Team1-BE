@@ -1,9 +1,11 @@
 package com.tw.bootcamp.bookshop.book;
 
 import com.tw.bootcamp.bookshop.money.Money;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 
+@ActiveProfiles("dev")
 public class BookTestBuilder {
   private final Book.BookBuilder bookBuilder;
 

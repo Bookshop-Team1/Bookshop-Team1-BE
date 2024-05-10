@@ -2,6 +2,7 @@ package com.tw.bootcamp.bookshop.user;
 
 import com.tw.bootcamp.bookshop.user.dto.CreateUserRequest;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -12,6 +13,7 @@ import java.util.Set;
 import static com.tw.bootcamp.bookshop.user.User.PASSWORD_ENCODER;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("dev")
 class UserTest {
     @Test
     void shouldBeEmailMandatory() {
