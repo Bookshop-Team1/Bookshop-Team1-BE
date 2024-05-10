@@ -1,4 +1,4 @@
-package com.tw.bootcamp.bookshop.user;
+package com.tw.bootcamp.bookshop.user.exception;
 
 public class InvalidEmailException extends Exception {
     public InvalidEmailException() {

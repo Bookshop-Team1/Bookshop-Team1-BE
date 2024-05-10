@@ -1,4 +1,4 @@
-package com.tw.bootcamp.bookshop.user;
+package com.tw.bootcamp.bookshop.user.dto;
 
 import com.tw.bootcamp.bookshop.user.address.CreateAddressRequest;
 import lombok.*;

@@ -1,5 +1,11 @@
 package com.tw.bootcamp.bookshop.user;
 
+import com.tw.bootcamp.bookshop.user.dto.CreateUserRequest;
+import com.tw.bootcamp.bookshop.user.dto.UpdateUserRequest;
+import com.tw.bootcamp.bookshop.user.exception.InvalidEmailException;
+import com.tw.bootcamp.bookshop.user.exception.UserNotFoundException;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,15 +17,12 @@ import javax.validation.Validator;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private Validator validator;
-
-    public UserService() {
-    }
+    private final UserRepository userRepository;
+    private final Validator validator;
 
     public User create(CreateUserRequest userRequest) throws InvalidEmailException {
         Optional<User> user = userRepository.findByEmail(userRequest.getEmail());

@@ -1,5 +1,6 @@
-package com.tw.bootcamp.bookshop.user;
+package com.tw.bootcamp.bookshop.user.dto;
 
+import com.tw.bootcamp.bookshop.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

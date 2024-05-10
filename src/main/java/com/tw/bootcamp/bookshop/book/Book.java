@@ -15,20 +15,23 @@ import javax.persistence.*;
 @Entity
 @Table(name = "books")
 public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String authorName;
-    @Embedded
-    private Money price;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String name;
+  private String authorName;
+  @Embedded private Money price;
 
-    public BookResponse toResponse() {
-        return BookResponse.builder()
-                .id(id)
-                .name(name)
-                .authorName(authorName)
-                .price(price)
-                .build();
-    }
+  private String imageUrl;
+  private String thumbnailUrl;
+  private Long bookCount;
+  private String isbn;
+  private String isbn13;
+  private Integer originalPublicationYear;
+  private String languageCode;
+  private Double averageRating;
+
+  public BookResponse toResponse() {
+    return BookResponse.builder().id(id).name(name).authorName(authorName).price(price).build();
+  }
 }

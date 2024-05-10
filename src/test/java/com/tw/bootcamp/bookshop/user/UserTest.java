@@ -1,5 +1,6 @@
 package com.tw.bootcamp.bookshop.user;
 
+import com.tw.bootcamp.bookshop.user.dto.CreateUserRequest;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;

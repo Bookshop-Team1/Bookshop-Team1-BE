@@ -1,6 +1,6 @@
 package com.tw.bootcamp.bookshop.error;
 
-import com.tw.bootcamp.bookshop.user.InvalidEmailException;
+import com.tw.bootcamp.bookshop.user.exception.InvalidEmailException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
