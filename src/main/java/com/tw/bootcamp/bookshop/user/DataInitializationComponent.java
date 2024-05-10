@@ -26,7 +26,7 @@ public class DataInitializationComponent implements CommandLineRunner {
 
         if(!userRepository.findByEmail(adminUserName).isPresent()){
 
-            String  password = PASSWORD_ENCODER.encode("admin_user");
+            String  password = PASSWORD_ENCODER.encode("Admin@12345");
 
             User adminUser = User.builder()
                     .email(adminUserName)
